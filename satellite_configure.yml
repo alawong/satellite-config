@@ -1,0 +1,38 @@
+---
+- name: Configure Satellite
+  hosts: name: Configure Satellite
+  hosts: localhost
+  collections:
+    redhat.satellite
+  
+  vars:
+    satellite_server_url: https://satellite.lab.example.com
+    satellite_username: "admin"
+    satellite_password: "redhat"
+    satellite_organization: "Default Organization"
+
+    satellite_content_views:
+      - name: RHEL8
+        repositories:
+         - name: Red Hat Enterprise Linux 8 Server RPMs x86_64 8Server
+           product: 'Red Hat Enterprise Linux Server'
+         - name: Red Hat Enterprise Linux 8 Server - Extras RPMs x86_64
+           product: 'Red Hat Enterprise Linux Server'
+         - name: Red Hat Satellite Tools 6.8 (for RHEL 8 Server) (RPMs)
+           product: 'Red Hat Enterprise Linux Server'
+    
+    satellite_lifecycle_environments:
+      - name: "Dev"
+        prior: "Library"
+      - name: "Test"
+        prior: "Dev"
+      - name: "Stage"
+        prior: "Test"
+      - name: "QA"
+        prior: "Stage"
+      - name: "Prod"
+        prior: "QA"
+
+  roles:
+  - redhat.satellite.content_views
+  - redhat.satellite.lifecycle_environments
