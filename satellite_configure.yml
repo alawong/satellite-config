@@ -1,26 +1,42 @@
 ---
 - name: Configure Satellite
-  hosts: name: Configure Satellite
   hosts: localhost
   collections:
-    redhat.satellite
+    - redhat.satellite
   
   vars:
-    satellite_server_url: https://satellite.lab.example.com
-    satellite_username: "admin"
-    satellite_password: "redhat"
-    satellite_organization: "Default Organization"
+    satellite_server_url: https://satellite.pnjll.dynamic.opentlc.com/
+    satellite_username: admin
+    satellite_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62393735373137393931306439623565663666343861343638613133306431653130353732666239
+          6165323836356635633038616131663464313933373865610a386636613831343937663938623139
+          36656137316266323734363635326662333162333866383938323936643731623662643435616435
+          3061636265343036390a666631373338333661623339366538653135363337376338346330633863
+          6136
+    satellite_validate_certs: false
+    satellite_organization: "RedHat"
+    
+    satellite_organizations:
+      - name: London
+        description: ye
+      - name: Farnborough
+        description: no
 
     satellite_content_views:
+      - name: RHEL7
+        repositories:
+         - name: Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server
+           product: 'Red Hat Enterprise Linux Server'
+         - name: Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server
+           product: 'Red Hat Enterprise Linux Server'
       - name: RHEL8
         repositories:
-          - name: Red Hat Enterprise Linux 8 Server RPMs x86_64 8Server
-            product: 'Red Hat Enterprise Linux Server'
-          - name: Red Hat Enterprise Linux 8 Server - Extras RPMs x86_64
-            product: 'Red Hat Enterprise Linux Server'
-          - name: Red Hat Satellite Tools 6.8 (for RHEL 8 Server) (RPMs)
-            product: 'Red Hat Enterprise Linux Server'
-    
+          #- name: Red Hat Enterprise Linux 8 for x86_64 - AppStream RPMs 8
+           # product: 'Red Hat Enterprise Linux Server' 
+          - name: Red Hat Ansible Engine 2.9 RPMs for Red Hat Enterprise Linux 7 Server x86_64
+            product: 'Red Hat Ansible Engine'
+  
     satellite_lifecycle_environments:
       - name: "Dev"
         prior: "Library"
@@ -34,5 +50,6 @@
         prior: "QA"
 
   roles:
+#  - redhat.satellite.organizations
   - redhat.satellite.content_views
-  - redhat.satellite.lifecycle_environments
+#  - redhat.satellite.lifecycle_environments
