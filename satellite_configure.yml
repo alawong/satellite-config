@@ -32,8 +32,6 @@
            product: 'Red Hat Enterprise Linux Server'
       - name: RHEL8
         repositories:
-          #- name: Red Hat Enterprise Linux 8 for x86_64 - AppStream RPMs 8
-           # product: 'Red Hat Enterprise Linux Server' 
           - name: Red Hat Ansible Engine 2.9 RPMs for Red Hat Enterprise Linux 7 Server x86_64
             product: 'Red Hat Ansible Engine'
   
@@ -50,6 +48,6 @@
         prior: "QA"
 
   roles:
-#  - redhat.satellite.organizations
-  - redhat.satellite.content_views
-#  - redhat.satellite.lifecycle_environments
+   - redhat.satellite.organizations
+   - redhat.satellite.content_views
+   - redhat.satellite.lifecycle_environments
